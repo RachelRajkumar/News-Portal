@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+
+<html lang="en" translate="no">
+<head>
+<meta charset="UTF-8">
+<meta name="google" content="notranslate">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>
+{% if lang == 'ta' %}
+{{ article.title_ta }}
+{% else %}
+{{ article.title_en }}
+{% endif %}
+</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Segoe UI,sans-serif;
+}
+
+body{
+background:#f3f4f6;
+padding:20px;
+}
+
+/* MAIN CARD */
+.container{
+max-width:850px;
+margin:auto;
+background:white;
+padding:25px;
+border-radius:15px;
+box-shadow:0 4px 15px rgba(0,0,0,.1);
+}
+
+/* IMAGE FIX (IMPORTANT) */
+.news-image{
+width:100%;
+max-width:800px;
+height:400px;
+object-fit:cover;
+border-radius:15px;
+display:block;
+margin:0 auto 20px auto;
+box-shadow:0 5px 18px rgba(0,0,0,0.15);
+}
+
+/* CATEGORY */
+.category{
+display:inline-block;
+background:#e5e7eb;
+padding:6px 12px;
+border-radius:20px;
+margin-bottom:15px;
+font-size:13px;
+}
+
+/* TITLE */
+h1{
+margin-bottom:15px;
+font-size:26px;
+color:#111;
+}
+
+/* CONTENT */
+.content{
+line-height:1.8;
+font-size:16px;
+color:#444;
+}
+
+/* DATE */
+.date{
+margin-top:15px;
+color:gray;
+font-size:13px;
+}
+
+/* BACK BUTTON */
+.back-btn{
+display:inline-block;
+margin-top:25px;
+padding:10px 16px;
+background:#2563eb;
+color:white;
+text-decoration:none;
+border-radius:8px;
+transition:0.3s;
+}
+
+.back-btn:hover{
+background:#1d4ed8;
+}
+
+/* MOBILE RESPONSIVE */
+@media(max-width:600px){
+.news-image{
+height:250px;
+}
+.container{
+padding:15px;
+}
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+{% if article.image %}
+<img src="{{ article.image.url }}" class="news-image">
+{% endif %}
+
+<div class="category">
+{{ article.category.name }}
+</div>
+
+{% if lang == 'ta' %}
+
+<h1>{{ article.title_ta }}</h1>
+
+<div class="content">
+{{ article.content_ta|linebreaks }}
+</div>
+
+<a href="javascript:history.back()" class="back-btn">
+← முகப்புப் பக்கம்
+</a>
+
+{% else %}
+
+<h1>{{ article.title_en }}</h1>
+
+<div class="content">
+{{ article.content_en|linebreaks }}
+</div>
+
+<a href="javascript:history.back()" class="back-btn">
+← Back Home
+</a>
+
+{% endif %}
+
+<div class="date">
+{{ article.created_at }}
+</div>
+
+</div>
+
+</body>
+</html>

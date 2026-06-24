@@ -1,0 +1,213 @@
+{% load static %}
+<!DOCTYPE html>
+
+<html lang="en" translate="no">
+<head>
+<meta charset="UTF-8">
+<meta name="google" content="notranslate">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>News Portal</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Segoe UI,sans-serif;
+}
+
+body{
+background:#f3f4f6;
+}
+
+header{
+background:#111827;
+color:white;
+padding:20px;
+text-align:center;
+font-size:22px;
+font-weight:bold;
+}
+
+.language-switch{
+text-align:center;
+margin:20px;
+}
+
+.btn{
+display:inline-block;
+padding:10px 20px;
+background:#2563eb;
+color:white;
+text-decoration:none;
+border-radius:8px;
+margin:5px;
+transition:0.3s;
+}
+
+.btn:hover{
+background:#1d4ed8;
+}
+
+.news-container{
+display:flex;
+flex-wrap:wrap;
+justify-content:center;
+gap:20px;
+padding:20px;
+}
+
+.news-card{
+width:300px;
+background:white;
+border-radius:15px;
+overflow:hidden;
+box-shadow:0 4px 15px rgba(0,0,0,.1);
+transition:.3s;
+}
+
+.news-card:hover{
+transform:translateY(-5px);
+}
+
+.news-card img{
+width:100%;
+height:150px;
+object-fit:cover;
+}
+
+.news-content{
+padding:15px;
+}
+
+.category{
+display:inline-block;
+background:#e5e7eb;
+padding:5px 10px;
+border-radius:20px;
+font-size:12px;
+margin-bottom:10px;
+}
+
+.news-content h3{
+margin-bottom:10px;
+font-size:16px;
+}
+
+.news-content p{
+color:#555;
+line-height:1.6;
+font-size:14px;
+}
+
+.read-more{
+display:inline-block;
+margin-top:10px;
+background:#dc2626;
+color:white;
+text-decoration:none;
+padding:10px 12px;
+border-radius:8px;
+font-size:13px;
+}
+
+footer{
+background:#111827;
+color:white;
+text-align:center;
+padding:15px;
+margin-top:30px;
+}
+</style>
+
+</head>
+
+<body>
+
+<header>
+News Portal
+</header>
+
+<div class="language-switch">
+<a href="?lang=en" class="btn">English</a>
+<a href="?lang=ta" class="btn">தமிழ்</a>
+</div>
+
+<div class="news-container">
+
+{% for article in news %}
+
+<div class="news-card">
+
+{% if article.image %}
+<img src="{{ article.image.url }}">
+{% endif %}
+
+<div class="news-content">
+
+<span class="category">
+{{ article.category.name }}
+</span>
+
+{% if lang == 'ta' %}
+
+<h3>{{ article.title_ta }}</h3>
+
+<p>
+{{ article.content_ta|truncatechars:120 }}
+</p>
+
+<a href="{% url 'detail' article.id %}?lang=ta"
+class="read-more">
+மேலும் படிக்க
+</a>
+
+{% else %}
+
+<h3>{{ article.title_en }}</h3>
+
+<p>
+{{ article.content_en|truncatechars:120 }}
+</p>
+
+<a href="{% url 'detail' article.id %}?lang=en"
+class="read-more">
+Read More
+</a>
+
+{% endif %}
+
+</div>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+<footer>
+© 2026 News Portal
+</footer>
+
+<!-- ✅ SCROLL POSITION FIX -->
+<script>
+window.addEventListener("beforeunload", function () {
+    sessionStorage.setItem(
+        "scrollPosition",
+        window.pageYOffset
+    );
+});
+
+window.addEventListener("load", function () {
+    let scrollPosition =
+        sessionStorage.getItem("scrollPosition");
+
+    if (scrollPosition !== null) {
+        window.scrollTo(0, parseInt(scrollPosition));
+    }
+});
+</script>
+
+</body>
+</html>
